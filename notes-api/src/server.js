@@ -2,6 +2,8 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import cors from '@koa/cors';
 import helmet from 'koa-helmet';
+import bodyParser from 'koa-bodyparser';
+import logger from 'koa-logger';
 import dotenv from 'dotenv';
 
 import notesRouter from './endpoints/notes.js';
@@ -13,7 +15,11 @@ const PORT = process.env.PORT || 8080;
 
 // App initialization
 const app = new Koa();
+app.use(logger());
+
+// Router
 const router = new Router();
+router.use(notesRouter.routes(), notesRouter.allowedMethods());
 
 // Error handler
 app.use(async (ctx, next) => {
@@ -26,10 +32,10 @@ app.use(async (ctx, next) => {
   }
 });
 
-router.use(notesRouter.routes(), notesRouter.allowedMethods());
-
-app.use(cors());
 app.use(helmet());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
