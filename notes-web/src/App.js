@@ -5,27 +5,27 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Visits />
+        <Note />
       </header>
     </div>
   );
 }
 
-function Visits() {
-  const [visits, setVisits] = useState(0);
+function Note() {
+  const [note, setNote] = useState(0);
 
   useEffect(() => {
     async function loadData() {
-      const response = await fetch('http://localhost:9000/');
+      const response = await fetch('http://localhost:9000/notes/1');
       const data = await response.text();
-      setVisits(data);
+      setNote(data);
     }
 
     loadData();
   }, []);
 
   return (
-    <p className="visits">{visits}</p>
+    <p className="note">{note}</p>
   );
 }
 

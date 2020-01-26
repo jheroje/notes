@@ -18,24 +18,13 @@ client.on('connect', () => {
   console.log('Redis client connected');
 });
 
-client.on("error", (err) => {
-  console.log("Redis error: " + err);
+client.on("error", (error) => {
+  console.log(`Redis error: ${error}`);
 });
 
-client.exists('visits', (err, reply) => {
-  if (err) {
-    console.log(err);
-    return;
-  }
-
-  if (reply === 0) {
-    client.set('visits', 0, redis.print);
-  }
-});
-
-client.exists('notes:1', (err, reply) => {
-  if (err) {
-    console.error(err);
+client.exists('notes:1', (error, reply) => {
+  if (error) {
+    console.error(error);
     return;
   }
 
@@ -44,4 +33,4 @@ client.exists('notes:1', (err, reply) => {
   }
 });
 
-export {client, getAsync, existsAsync};
+export { client, getAsync, existsAsync };
