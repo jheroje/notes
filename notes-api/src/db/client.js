@@ -1,5 +1,8 @@
 import redis from 'redis';
-import util from 'util';
+import bluebird from 'bluebird';
+
+// async await all the way
+bluebird.promisifyAll(redis);
 
 // Constants
 const REDIS_HOST = process.env.REDIS_HOST || 'redis-db';
@@ -11,9 +14,6 @@ const client = redis.createClient({
   port: REDIS_PORT
 });
 
-const getAsync = util.promisify(client.get).bind(client);
-const existsAsync = util.promisify(client.exists).bind(client);
-
 client.on('connect', () => {
   console.log('Redis client connected');
 });
@@ -22,15 +22,18 @@ client.on("error", (error) => {
   console.log(`Redis error: ${error}`);
 });
 
-client.exists('notes:1', (error, reply) => {
-  if (error) {
-    console.error(error);
-    return;
+async function init() {
+  try {
+    const noteInitialized = await client.existsAsync('notes:1');
+    
+    if (noteInitialized === 0) {
+      await client.setAsync('notes:1', 'First note!');
+    }
+  } catch (error) {
+      console.error(error);
   }
+}
 
-  if (reply === 0) {
-    client.set('notes:1', 'First note!', redis.print);
-  }
-});
+init();
 
-export { client, getAsync, existsAsync };
+export default client;
