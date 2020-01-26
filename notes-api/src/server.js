@@ -1,8 +1,7 @@
-'use strict';
-
 import Koa from 'koa';
 import Router from 'koa-router';
 import cors from '@koa/cors';
+import helmet from 'koa-helmet';
 import dotenv from 'dotenv';
 
 import notesRouter from './endpoints/notes.js';
@@ -30,6 +29,7 @@ app.use(async (ctx, next) => {
 router.use(notesRouter.routes(), notesRouter.allowedMethods());
 
 app.use(cors());
+app.use(helmet());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
