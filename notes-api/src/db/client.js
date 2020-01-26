@@ -1,4 +1,5 @@
 import redis from 'redis';
+import util from 'util';
 
 // Constants
 const REDIS_HOST = process.env.REDIS_HOST || 'redis-db';
@@ -10,8 +11,15 @@ const client = redis.createClient({
   port: REDIS_PORT
 });
 
-client.on('connect', function () {
+const getAsync = util.promisify(client.get).bind(client);
+const existsAsync = util.promisify(client.exists).bind(client);
+
+client.on('connect', () => {
   console.log('Redis client connected');
+});
+
+client.on("error", (err) => {
+  console.log("Redis error: " + err);
 });
 
 client.exists('visits', (err, reply) => {
@@ -21,8 +29,19 @@ client.exists('visits', (err, reply) => {
   }
 
   if (reply === 0) {
-    client.set('visits', 0);
+    client.set('visits', 0, redis.print);
   }
 });
 
-export default client;
+client.exists('notes:1', (err, reply) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+
+  if (reply === 0) {
+    client.set('notes:1', 'First note!', redis.print);
+  }
+});
+
+export {client, getAsync, existsAsync};

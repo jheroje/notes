@@ -9,9 +9,10 @@
         "start": "node src/server.js"
     },
     "dependencies": {
-        "cors": "^2.8.5",
         "dotenv": "^8.2.0",
-        "express": "^4.17.1",
+        "koa": "^2.11.0",
+        "koa-router": "^8.0.6",
+        "@koa/cors": "^3.0.0",
         "redis": "^2.8.0"
     }
 }
