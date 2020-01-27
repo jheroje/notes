@@ -27,7 +27,7 @@ async function init() {
     const noteInitialized = await client.existsAsync('notes:1');
 
     if (noteInitialized === 0) {
-      await client.hmsetAsync('notes:1', 'title', 'hello', 'text', 'First note!');
+      await client.hmsetAsync('notes:1', 'title', 'Hello!', 'text', 'This is the first note stored in redis served through koa and now you are seeing it!');
     }
   } catch (error) {
     console.log(`[Redis Error]: ${error}`);

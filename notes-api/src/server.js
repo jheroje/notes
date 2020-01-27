@@ -5,7 +5,6 @@ import helmet from 'koa-helmet';
 import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
 import dotenv from 'dotenv';
-import redis from 'redis';
 
 import notesRouter from './endpoints/notes.js';
 import { errorHandler, errorListener } from './handlers/error.js';

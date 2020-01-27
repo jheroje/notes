@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Note.css';
 
 function Note() {
   const [note, setNote] = useState(0);
@@ -14,9 +15,9 @@ function Note() {
   }, []);
 
   return (
-    <div>
-      <h1>{note.title}</h1>
-      <p className="note">{note.text}</p>
+    <div className="note">
+      <p className="title">{note.title}</p>
+      <p>{note.text}</p>
     </div>
   );
 }
