@@ -9,7 +9,7 @@ router.get('/:id', async (ctx) => {
   const exists = await notesService.exists(id);
 
   if (exists) {
-    const note = await notesService.get(id);
+    const note = await notesService.hgetall(id);
     ctx.body = { note };
   } else {
     ctx.body = 'This note doesn\'t exist';

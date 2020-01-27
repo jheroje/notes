@@ -5,9 +5,11 @@ import helmet from 'koa-helmet';
 import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
 import dotenv from 'dotenv';
+import redis from 'redis';
 
 import notesRouter from './endpoints/notes.js';
-import errorHandler from './handlers/error.js';
+import { errorHandler, errorListener } from './handlers/error.js';
+import { requestLogger, responseLogger } from './handlers/loggers.js';
 
 dotenv.config();
 
@@ -18,16 +20,18 @@ const PORT = process.env.PORT || 8080;
 const app = new Koa();
 app.use(logger());
 
-// Router
-const router = new Router();
-router.use(notesRouter.routes(), notesRouter.allowedMethods());
-
 // Error handler
 app.use(errorHandler());
 
-app.on('error', (error, ctx) => {
-  console.log(`[Koa Error]: ${error}`);
-});
+// Loggers for debugging
+// app.use(requestLogger());
+app.use(responseLogger());
+
+app.on('error', errorListener());
+
+// Router
+const router = new Router();
+router.use(notesRouter.routes(), notesRouter.allowedMethods());
 
 //Configuration
 app.use(helmet());

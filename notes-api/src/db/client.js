@@ -27,7 +27,7 @@ async function init() {
     const noteInitialized = await client.existsAsync('notes:1');
 
     if (noteInitialized === 0) {
-      await client.setAsync('notes:1', 'First note!');
+      await client.hmsetAsync('notes:1', 'title', 'hello', 'text', 'First note!');
     }
   } catch (error) {
     console.log(`[Redis Error]: ${error}`);
