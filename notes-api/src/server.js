@@ -7,6 +7,7 @@ import logger from 'koa-logger';
 import dotenv from 'dotenv';
 
 import notesRouter from './endpoints/notes.js';
+import errorHandler from './handlers/error.js';
 
 dotenv.config();
 
@@ -22,19 +23,15 @@ const router = new Router();
 router.use(notesRouter.routes(), notesRouter.allowedMethods());
 
 // Error handler
-app.use(async (ctx, next) => {
-  try {
-    await next();
-  } catch (error) {
-    error.status = error.statusCode || error.status || 500;
-    ctx.body = error.message;
-    ctx.app.emit('Error', error, ctx);
-  }
+app.use(errorHandler());
+
+app.on('error', (error, ctx) => {
+  console.log(`[Koa Error]: ${error}`);
 });
 
+//Configuration
 app.use(helmet());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser());
 app.use(cors());
 app.use(router.routes());
 app.use(router.allowedMethods());

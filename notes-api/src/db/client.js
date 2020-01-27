@@ -19,18 +19,18 @@ client.on('connect', () => {
 });
 
 client.on("error", (error) => {
-  console.log(`Redis error: ${error}`);
+  console.log(`[Redis Error]: ${error}`);
 });
 
 async function init() {
   try {
     const noteInitialized = await client.existsAsync('notes:1');
-    
+
     if (noteInitialized === 0) {
       await client.setAsync('notes:1', 'First note!');
     }
   } catch (error) {
-      console.error(error);
+    console.log(`[Redis Error]: ${error}`);
   }
 }
 

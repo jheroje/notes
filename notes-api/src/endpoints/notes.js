@@ -1,22 +1,18 @@
 import Router from 'koa-router';
-import client from '../db/client.js';
+import notesService from '../db/notes.js';
 
-const router = new Router({prefix: '/notes'});
+const router = new Router({ prefix: '/notes' });
 
 router.get('/:id', async (ctx) => {
-  try {
-    const key = 'notes:' + ctx.params.id;
+  const id = ctx.params.id;
 
-    const exists = await client.existsAsync(key);
+  const exists = await notesService.exists(id);
 
-    if (exists === 1) {
-      const note = await client.getAsync(key);
-      ctx.body = { note };
-    } else {
-      ctx.body = 'This note doesn\'t exist';
-    }
-  } catch (error) {
-    console.log(`Error: ${error}`);
+  if (exists) {
+    const note = await notesService.get(id);
+    ctx.body = { note };
+  } else {
+    ctx.body = 'This note doesn\'t exist';
   }
 });
 
