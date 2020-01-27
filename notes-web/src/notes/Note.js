@@ -6,7 +6,7 @@ function Note() {
   useEffect(() => {
     async function loadData() {
       const response = await fetch('http://localhost:9000/notes/1');
-      const data = await response.text();
+      const data = await response.json();
       setNote(data);
     }
 
@@ -14,7 +14,10 @@ function Note() {
   }, []);
 
   return (
-    <p className="note">{note}</p>
+    <div>
+      <h1>{note.title}</h1>
+      <p className="note">{note.text}</p>
+    </div>
   );
 }
 

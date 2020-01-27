@@ -10,7 +10,7 @@ router.get('/:id', async (ctx) => {
 
   if (exists) {
     const note = await notesService.hgetall(id);
-    ctx.body = { note };
+    ctx.body =  note;
   } else {
     ctx.body = 'This note doesn\'t exist';
   }
