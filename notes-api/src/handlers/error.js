@@ -1,3 +1,5 @@
+import redis from 'redis';
+
 const errorHandler = () => async (ctx, next) => {
   try {
     await next();
@@ -9,4 +11,12 @@ const errorHandler = () => async (ctx, next) => {
   }
 }
 
-export default errorHandler;
+const errorListener = () => async (error, ctx) => {
+  if (error instanceof redis.RedisError) {
+    console.log(`[Redis Error]: ${error}`);
+  } else {
+    console.log(`[Koa Error]: ${error}`);
+  }
+}
+
+export { errorHandler, errorListener };
