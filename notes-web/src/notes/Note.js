@@ -1,18 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './Note.css';
 
-function Note() {
-  const [note, setNote] = useState(0);
-
-  useEffect(() => {
-    async function loadData() {
-      const response = await fetch('https://localhost:9000/notes/1');
-      const data = await response.json();
-      setNote(data);
-    }
-
-    loadData();
-  }, []);
+function Note({note}) {
 
   return (
     <div className="note">

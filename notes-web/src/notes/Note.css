@@ -5,6 +5,7 @@
     color: #4a4a4a;
     display: block;
     padding: 1.25rem;
+    margin: 0.75rem;
     width: 18rem;
 }
 
@@ -14,6 +15,6 @@ p {
 
 p.title {
     margin-top: 0;
-    font-size: 40px;
+    font-size: calc(16px + 1vmin);
     font-weight: bold;
 }

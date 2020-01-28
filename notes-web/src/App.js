@@ -1,12 +1,12 @@
 import React from 'react';
-import Note from './notes/Note.js';
+import List from './notes/List.js';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <div className="App-body">
-        <Note />
+        <List />
       </div>
     </div>
   );
