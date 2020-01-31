@@ -3,6 +3,11 @@ import notesService from '../db/notes.js';
 
 const router = new Router({ prefix: '/notes' });
 
+router.get('/', async (ctx) => {
+    const notes = await notesService.hgetallList();
+    ctx.body = notes;
+});
+
 router.get('/:id', async (ctx) => {
   const id = ctx.params.id;
 

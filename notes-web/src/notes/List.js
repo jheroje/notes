@@ -3,13 +3,13 @@ import Note from './Note.js'
 import './List.css'
 
 function List() {
-  const [note, setNote] = useState(0);
+  const [notes, setNotes] = useState([]);
 
   useEffect(() => {
     async function loadData() {
-      const response = await fetch('https://localhost:9000/notes/1');
+      const response = await fetch('https://localhost:9000/notes');
       const data = await response.json();
-      setNote(data);
+      setNotes(data);
     }
 
     loadData();
@@ -17,17 +17,7 @@ function List() {
 
   return (
     <div className="list">
-      <Note note={note}/>
-      <Note note={note}/>
-      <Note note={note}/>
-      <Note note={note}/>
-      <Note note={note}/>
-      <Note note={note}/>
-      <Note note={note}/>
-      <Note note={note}/>
-      <Note note={note}/>
-      <Note note={note}/>
-      <Note note={note}/>
+      { notes.map((note) => <Note note={note}/>) }
     </div>
   );
 }
