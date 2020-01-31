@@ -52,3 +52,5 @@ const options = {
 
 // Now listen
 http2.createSecureServer(options, app.callback()).listen(PORT, () => console.log(`Koa running on port ${PORT}`));
+
+export default app;
