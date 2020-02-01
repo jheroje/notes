@@ -31,7 +31,7 @@ const getHash = async (key) => {
 
 const setHash = async (key, hash) => {
   const entries = Object.entries(hash).flat();
-  await client.hmsetAsync(key, ...entries);
+  return await client.hmsetAsync(key, ...entries);
 };
 
 const getAllHashes = async (pattern) => {
@@ -41,4 +41,8 @@ const getAllHashes = async (pattern) => {
   return values;
 };
 
-export { nextValue, getAllKeys, exists, getString, getHashProperty, getHash, setHash, getAllHashes };
+const remove = async (key) => {
+  return await client.delAsync(key);
+};
+
+export { nextValue, getAllKeys, exists, getString, getHashProperty, getHash, setHash, getAllHashes, remove };
