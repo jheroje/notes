@@ -13,9 +13,9 @@ const errorHandler = () => async (ctx, next) => {
 
 const errorListener = () => async (error, ctx) => {
   if (error instanceof redis.RedisError) {
-    console.error(`[Redis Error]: ${error}`);
+    console.error('[Redis Error]: ', error);
   } else {
-    console.error(`[Koa Error]: ${error}`);
+    console.error('[Koa Error]: ', error);
   }
 }
 
