@@ -1,24 +1,19 @@
 import Router from 'koa-router';
-import notesService from '../db/notes.js';
+import { getNote, getAllNotes } from '../db/notes.js';
 
 const router = new Router({ prefix: '/notes' });
 
 router.get('/', async (ctx) => {
-    const notes = await notesService.hgetallList();
+    const notes = await getAllNotes();
     ctx.body = notes;
 });
 
 router.get('/:id', async (ctx) => {
   const id = ctx.params.id;
 
-  const exists = await notesService.exists(id);
+  const note = await getNote(id);
 
-  if (exists) {
-    const note = await notesService.hgetall(id);
-    ctx.body =  note;
-  } else {
-    ctx.body = 'This note doesn\'t exist';
-  }
+  ctx.body = note !== null ? note : 'This note doesn\'t exist';
 });
 
 export default router;
