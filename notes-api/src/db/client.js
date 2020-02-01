@@ -19,7 +19,7 @@ client.on('connect', () => {
 });
 
 client.on("error", (error) => {
-  console.log(`[Redis Error]: ${error}`);
+  console.error(`[Redis Error]: ${error}`);
 });
 
 async function init() {
@@ -30,7 +30,7 @@ async function init() {
       await client.hmsetAsync('notes:1', 'title', 'Hello!', 'text', 'This is the first note stored in redis served through koa and now you are seeing it!');
     }
   } catch (error) {
-    console.log(`[Redis Error]: ${error}`);
+    console.error(`[Redis Error]: ${error}`);
   }
 }
 
