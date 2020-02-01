@@ -47,7 +47,8 @@ app.use(router.allowedMethods());
 // Certs
 const options = {
   key: fs.readFileSync(path.join(__dirname, '/privateKey.key')),
-  cert: fs.readFileSync(path.join(__dirname, '/certificate.crt'))
+  cert: fs.readFileSync(path.join(__dirname, '/certificate.crt')),
+  allowHTTP1: true
 }
 
 // Now listen
