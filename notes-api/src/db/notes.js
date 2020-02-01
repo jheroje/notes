@@ -1,4 +1,4 @@
-import { getHashProperty, getHash, getAllHashes } from '../handlers/redis.js';
+import { nextValue, getHashProperty, getHash, setHash, getAllHashes } from '../handlers/redis.js';
 
 const ns = 'notes';
 const idPattern = '[0-9]*';
@@ -7,6 +7,17 @@ const getNote = async (id) => {
   const noteKey = `${ns}:${id}`;
 
   return await getHash(noteKey);
+}
+
+const saveNote = async (note) => {
+
+  if (note.id === undefined) {
+    note.id = await nextValue(`${ns}:id`);
+  }
+
+  const key = `${ns}:${note.id}`;
+
+  await setHash(key, note);
 }
 
 const getAllNotes = async () => {
@@ -21,4 +32,4 @@ const getNoteProperty = async (id, property) => {
   return await getHashProperty(noteKey, property);
 }
 
-export { getNote, getAllNotes, getNoteProperty };
+export { getNote, saveNote, getAllNotes, getNoteProperty };

@@ -1,5 +1,9 @@
 import client from '../db/client.js';
 
+const nextValue = async (key) => {
+  return await client.incrAsync(key);
+};
+
 const getAllKeys = async (pattern) => {
   const keys = await client.keysAsync(pattern);
   return keys;
@@ -25,6 +29,11 @@ const getHash = async (key) => {
   return value;
 };
 
+const setHash = async (key, hash) => {
+  const entries = Object.entries(hash).flat();
+  await client.hmsetAsync(key, ...entries);
+};
+
 const getAllHashes = async (pattern) => {
   const keys = await getAllKeys(pattern);
   const values = Promise.all(keys.map(async (key) => await getHash(key)));
@@ -32,4 +41,4 @@ const getAllHashes = async (pattern) => {
   return values;
 };
 
-export { getAllKeys, exists, getString, getHashProperty, getHash, getAllHashes };
+export { nextValue, getAllKeys, exists, getString, getHashProperty, getHash, setHash, getAllHashes };
