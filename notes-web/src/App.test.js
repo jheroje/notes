@@ -2,8 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders note', () => {
+test('renders body container', () => {
   const { container } = render(<App />);
-  const noteElement = container.querySelector("p.note");
-  expect(noteElement).toBeInTheDocument();
+  const body = container.querySelector('.app > .body');
+  expect(body).toBeInTheDocument();
 });
