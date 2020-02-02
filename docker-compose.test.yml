@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+  react-web:
+    build: ./notes-web
+    command: npm test
+    restart: "no"
+    
+  koa-test-api:
+    build: ./notes-api
+    command: npm test
+    ports:
+      - "9001:9001"
+    restart: "no"
+    depends_on: 
+      - redis-db
